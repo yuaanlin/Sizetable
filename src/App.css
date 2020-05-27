@@ -1,6 +1,14 @@
 body {
     text-align: center;
     padding: 36px;
+    overflow: hidden;
+}
+
+button {
+    border: 1px solid #ddd;
+    background-color: white;
+    padding: 16px;
+    border-radius: 6px;
 }
 
 table,
@@ -19,16 +27,11 @@ input {
     border: 0;
     width: 80px;
     text-align: center;
-    width: 80%;
+    width: 60%;
     background-color: rgba(0, 0, 0, 0);
     padding: 14px;
 }
 
 .colored-background {
     background-color: rgba(245, 245, 245, 1);
-}
-
-th,
-td {
-    padding: 15px;
 }
