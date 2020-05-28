@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import html2canvas from "html2canvas";
 import FileSaver from "file-saver";
+import GithubIcon from "./github.svg";
 
 interface State {
     cols: string[];
@@ -86,44 +87,59 @@ class App extends Component<{}, State> {
     render() {
         return (
             <div>
-                <div style={{ marginRight: 36, display: "inline-block" }}>
-                    <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize - 1 })}>
-                        縮小字體
-                    </button>
-                    <input
-                        value={this.state.fontSize}
-                        onChange={(e) => {
-                            if (!isNaN(+e.target.value)) this.setState({ fontSize: +e.target.value });
-                        }}
-                        className="setting"
-                        style={{ width: 40, padding: 11 }}
-                    />
-                    <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize + 1 })}>
-                        放大字體
-                    </button>
+                <div className="topnav">
+                    <div className="topnav-left">
+                        <p>Size Table Generator</p>
+                        <p>尺寸表產生器</p>
+                    </div>
+                    <div className="topnav-right">
+                        <a href="https://github.com/ken20001207/generate-sizetable">
+                            <img src={GithubIcon} style={{ width: 32 }} alt="Github" />
+                        </a>
+                    </div>
                 </div>
-                <div style={{ marginRight: 36, display: "inline-block" }}>
-                    <button
-                        className="setting"
-                        onClick={() => {
-                            this.setState({ sizes: [...this.state.sizes, "新尺寸"] });
-                        }}
-                    >
-                        增加尺寸
-                    </button>
-                    <button
-                        className="setting"
-                        onClick={() => {
-                            this.setState({ cols: [...this.state.cols, "新欄位"] });
-                        }}
-                    >
-                        增加欄位
+
+                <div style={{ marginTop: 48 }}>
+                    <div style={{ marginRight: 36, display: "inline-block" }}>
+                        <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize - 1 })}>
+                            縮小字體
+                        </button>
+                        <input
+                            value={this.state.fontSize}
+                            onChange={(e) => {
+                                if (!isNaN(+e.target.value)) this.setState({ fontSize: +e.target.value });
+                            }}
+                            className="setting"
+                            style={{ width: 40, padding: 11 }}
+                        />
+                        <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize + 1 })}>
+                            放大字體
+                        </button>
+                    </div>
+                    <div style={{ marginRight: 36, display: "inline-block" }}>
+                        <button
+                            className="setting"
+                            onClick={() => {
+                                this.setState({ sizes: [...this.state.sizes, "新尺寸"] });
+                            }}
+                        >
+                            增加尺寸
+                        </button>
+                        <button
+                            className="setting"
+                            onClick={() => {
+                                this.setState({ cols: [...this.state.cols, "新欄位"] });
+                            }}
+                        >
+                            增加欄位
+                        </button>
+                    </div>
+
+                    <button className="setting" onClick={() => this.print()}>
+                        保存圖片
                     </button>
                 </div>
 
-                <button className="setting" onClick={() => this.print()}>
-                    保存圖片
-                </button>
                 <div style={{ marginTop: 36, marginBottom: 36, padding: 24 }} id="table">
                     <input defaultValue="測量單位：cm (公分)、kg(公斤)" style={{ fontSize: this.state.fontSize, width: "90%" }} />
                     <table>

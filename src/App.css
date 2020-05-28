@@ -1,8 +1,8 @@
 body {
-    text-align: center;
     padding: 72px;
-    overflow: hidden;
     background-color: rgb(250, 250, 250);
+    font-family: "Noto Sans TC";
+    font-weight: 700;
 }
 
 table,
@@ -17,6 +17,7 @@ table {
 }
 
 #table {
+    text-align: center;
     background-color: white;
     box-shadow: 0px 0px 10px 10px rgba(200, 200, 200, 0.1);
 }
@@ -40,4 +41,21 @@ input {
     background-color: white;
     padding: 16px;
     border-radius: 6px;
+}
+
+.topnav {
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.topnav p {
+    margin: 0px;
+}
+
+.topnav-left {
+    float: left;
+}
+
+.topnav-right {
+    float: right;
 }
