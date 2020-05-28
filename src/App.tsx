@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import "./App.css";
 import html2canvas from "html2canvas";
 import FileSaver from "file-saver";
-import { resolve } from "dns";
 
 interface State {
     cols: string[];
     sizes: string[];
     priting: boolean;
+    fontSize: number;
 }
 
 class App extends Component<{}, State> {
@@ -17,6 +17,7 @@ class App extends Component<{}, State> {
             cols: ["衣長", "衣長", "衣長", "衣長"],
             sizes: ["S", "M", "L", "XL"],
             priting: false,
+            fontSize: 36,
         };
     }
 
@@ -35,17 +36,32 @@ class App extends Component<{}, State> {
     render() {
         return (
             <div>
-                <button onClick={() => this.setState({ sizes: [...this.state.sizes, "新尺寸"] })}>增加尺寸</button>
-                <button onClick={() => this.setState({ cols: [...this.state.cols, "新欄位"] })}>新增欄位</button>
-                <button onClick={() => this.print()}>保存圖片</button>
+                <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize + 1 })}>
+                    放大字體
+                </button>
+                <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize - 1 })}>
+                    縮小字體
+                </button>
+                <button className="setting" onClick={() => this.setState({ sizes: [...this.state.sizes, "新尺寸"] })}>
+                    增加尺寸
+                </button>
+                <button className="setting" onClick={() => this.setState({ cols: [...this.state.cols, "新欄位"] })}>
+                    新增欄位
+                </button>
+                <button className="setting" onClick={() => this.print()}>
+                    保存圖片
+                </button>
                 <div style={{ marginTop: 36, marginBottom: 36, padding: 24 }} id="table">
-                    <input defaultValue="測量單位：cm (公分)、kg(公斤)" style={{ width: "90%" }} />
+                    <input defaultValue="測量單位：cm (公分)、kg(公斤)" style={{ fontSize: this.state.fontSize, width: "90%" }} />
                     <table>
                         <tr style={{ lineHeight: 0.5 }}>
-                            <td className="colored-background">尺寸</td>
+                            <td className="colored-background" style={{ fontSize: this.state.fontSize }}>
+                                尺寸
+                            </td>
                             {this.state.cols.map((col, index) => (
                                 <td className="colored-background">
                                     <input
+                                        style={{ fontSize: this.state.fontSize }}
                                         value={col}
                                         onChange={(e) => {
                                             var newcols = [];
@@ -75,6 +91,7 @@ class App extends Component<{}, State> {
                             <tr style={{ lineHeight: 0.2 }}>
                                 <td className="colored-background" style={{ width: 300 }}>
                                     <input
+                                        style={{ fontSize: this.state.fontSize, width: "90%" }}
                                         value={size}
                                         onChange={(e) => {
                                             var newsizes = [];
@@ -100,13 +117,13 @@ class App extends Component<{}, State> {
                                 </td>
                                 {this.state.cols.map(() => (
                                     <td>
-                                        <input type="text" />
+                                        <input style={{ fontSize: this.state.fontSize }} type="text" />
                                     </td>
                                 ))}
                             </tr>
                         ))}
                     </table>
-                    <input defaultValue="因測量方法不同，2-3cm 誤差屬正常範圍" style={{ width: "90%" }} />
+                    <input defaultValue="因測量方法不同，2-3cm 誤差屬正常範圍" style={{ width: "90%", fontSize: this.state.fontSize }} />
                 </div>
             </div>
         );

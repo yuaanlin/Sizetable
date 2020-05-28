@@ -4,13 +4,6 @@ body {
     overflow: hidden;
 }
 
-button {
-    border: 1px solid #ddd;
-    background-color: white;
-    padding: 16px;
-    border-radius: 6px;
-}
-
 table,
 td,
 th {
@@ -34,4 +27,11 @@ input {
 
 .colored-background {
     background-color: rgba(245, 245, 245, 1);
+}
+
+.setting {
+    border: 1px solid #ddd;
+    background-color: white;
+    padding: 16px;
+    border-radius: 6px;
 }
