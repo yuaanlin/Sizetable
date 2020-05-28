@@ -2,7 +2,7 @@ import React, { Component, lazy } from "react";
 import "./App.css";
 import html2canvas from "html2canvas";
 import FileSaver from "file-saver";
-const Topnav = lazy(() => import("./components/topnav"));
+const Topnav = lazy(() => import("./components/Topnav"));
 
 interface State {
     cols: string[];
