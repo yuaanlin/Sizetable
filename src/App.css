@@ -1,7 +1,8 @@
 body {
-    padding: 72px;
+    padding-right: 72px;
+    padding-left: 72px;
     background-color: rgb(250, 250, 250);
-    font-family: "Noto Sans TC";
+    font-family: "微軟正黑體";
     font-weight: 700;
 }
 
@@ -46,6 +47,7 @@ input {
 .topnav {
     overflow: hidden;
     vertical-align: middle;
+    margin-bottom: 72px;
 }
 
 .topnav p {

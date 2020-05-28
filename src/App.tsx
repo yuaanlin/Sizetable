@@ -1,8 +1,8 @@
-import React, { Component, lazy } from "react";
+import React, { Component } from "react";
 import "./App.css";
 import html2canvas from "html2canvas";
 import FileSaver from "file-saver";
-const Topnav = lazy(() => import("./components/Topnav"));
+import Topnav from "./components/Topnav";
 
 interface State {
     cols: string[];
