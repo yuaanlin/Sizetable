@@ -8,6 +8,8 @@ interface State {
     sizes: string[];
     priting: boolean;
     fontSize: number;
+    focusInputS: number | undefined;
+    focusInputC: number | undefined;
 }
 
 class App extends Component<{}, State> {
@@ -18,8 +20,56 @@ class App extends Component<{}, State> {
             sizes: ["S", "M", "L", "XL"],
             priting: false,
             fontSize: 36,
+            focusInputC: undefined,
+            focusInputS: undefined,
         };
     }
+
+    componentDidMount = () => {
+        document.addEventListener("keydown", this.keyboardHandler, false);
+    };
+
+    keyboardHandler = (e: KeyboardEvent) => {
+        var fs = this.state.focusInputS;
+        var fc = this.state.focusInputC;
+        var l = this.state.cols.length;
+        var s = this.state.sizes.length;
+        if (fs !== undefined && fc !== undefined) {
+            if (e.keyCode === 37) {
+                if (fc !== 0) {
+                    this.setState({ focusInputC: fc - 1 });
+                    document.getElementById("(" + fs + "," + (fc - 1) + ")")?.focus();
+                } else {
+                    this.setState({ focusInputC: fc + l - 1 });
+                    document.getElementById("(" + fs + "," + (fc + l - 1) + ")")?.focus();
+                }
+            } else if (e.keyCode === 38) {
+                if (fs === 0) {
+                    this.setState({ focusInputS: s - 1 });
+                    document.getElementById("(" + (s - 1) + "," + fc + ")")?.focus();
+                } else {
+                    this.setState({ focusInputS: fs - 1 });
+                    document.getElementById("(" + (fs - 1) + "," + fc + ")")?.focus();
+                }
+            } else if (e.keyCode === 39) {
+                if (fc !== l - 1) {
+                    this.setState({ focusInputC: fc + 1 });
+                    document.getElementById("(" + fs + "," + (fc + 1) + ")")?.focus();
+                } else {
+                    this.setState({ focusInputC: fc - l + 1 });
+                    document.getElementById("(" + fs + "," + (fc - l + 1) + ")")?.focus();
+                }
+            } else if (e.keyCode === 40) {
+                if (fs === s - 1) {
+                    this.setState({ focusInputS: 0 });
+                    document.getElementById("(" + 0 + "," + fc + ")")?.focus();
+                } else {
+                    this.setState({ focusInputS: fs + 1 });
+                    document.getElementById("(" + (fs + 1) + "," + fc + ")")?.focus();
+                }
+            }
+        }
+    };
 
     print = async () => {
         this.setState({ priting: true }, () => {
@@ -36,18 +86,41 @@ class App extends Component<{}, State> {
     render() {
         return (
             <div>
-                <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize + 1 })}>
-                    放大字體
-                </button>
-                <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize - 1 })}>
-                    縮小字體
-                </button>
-                <button className="setting" onClick={() => this.setState({ sizes: [...this.state.sizes, "新尺寸"] })}>
-                    增加尺寸
-                </button>
-                <button className="setting" onClick={() => this.setState({ cols: [...this.state.cols, "新欄位"] })}>
-                    新增欄位
-                </button>
+                <div style={{ marginRight: 36, display: "inline-block" }}>
+                    <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize - 1 })}>
+                        縮小字體
+                    </button>
+                    <input
+                        value={this.state.fontSize}
+                        onChange={(e) => {
+                            if (!isNaN(+e.target.value)) this.setState({ fontSize: +e.target.value });
+                        }}
+                        className="setting"
+                        style={{ width: 40, padding: 11 }}
+                    />
+                    <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize + 1 })}>
+                        放大字體
+                    </button>
+                </div>
+                <div style={{ marginRight: 36, display: "inline-block" }}>
+                    <button
+                        className="setting"
+                        onClick={() => {
+                            this.setState({ sizes: [...this.state.sizes, "新尺寸"] });
+                        }}
+                    >
+                        增加尺寸
+                    </button>
+                    <button
+                        className="setting"
+                        onClick={() => {
+                            this.setState({ cols: [...this.state.cols, "新欄位"] });
+                        }}
+                    >
+                        增加欄位
+                    </button>
+                </div>
+
                 <button className="setting" onClick={() => this.print()}>
                     保存圖片
                 </button>
@@ -87,7 +160,7 @@ class App extends Component<{}, State> {
                                 </td>
                             ))}
                         </tr>
-                        {this.state.sizes.map((size, index) => (
+                        {this.state.sizes.map((size, size_index) => (
                             <tr style={{ lineHeight: 0.2 }}>
                                 <td className="colored-background" style={{ width: 300 }}>
                                     <input
@@ -96,7 +169,7 @@ class App extends Component<{}, State> {
                                         onChange={(e) => {
                                             var newsizes = [];
                                             newsizes = this.state.sizes;
-                                            newsizes[index] = e.target.value;
+                                            newsizes[size_index] = e.target.value;
                                             this.setState({ sizes: newsizes });
                                         }}
                                     ></input>
@@ -107,7 +180,7 @@ class App extends Component<{}, State> {
                                             onClick={() => {
                                                 var newsizes = [];
                                                 newsizes = this.state.sizes;
-                                                newsizes.splice(index, 1);
+                                                newsizes.splice(size_index, 1);
                                                 this.setState({ sizes: newsizes });
                                             }}
                                         >
@@ -115,9 +188,14 @@ class App extends Component<{}, State> {
                                         </button>
                                     )}
                                 </td>
-                                {this.state.cols.map(() => (
+                                {this.state.cols.map((col, col_index) => (
                                     <td>
-                                        <input style={{ fontSize: this.state.fontSize }} type="text" />
+                                        <input
+                                            onClick={() => this.setState({ focusInputS: size_index, focusInputC: col_index })}
+                                            id={"(" + size_index + "," + col_index + ")"}
+                                            style={{ fontSize: this.state.fontSize }}
+                                            type="text"
+                                        />
                                     </td>
                                 ))}
                             </tr>
