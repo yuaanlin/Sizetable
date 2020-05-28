@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, lazy } from "react";
 import "./App.css";
 import html2canvas from "html2canvas";
 import FileSaver from "file-saver";
-import GithubIcon from "./github.svg";
+const Topnav = lazy(() => import("./components/topnav"));
 
 interface State {
     cols: string[];
@@ -87,19 +87,8 @@ class App extends Component<{}, State> {
     render() {
         return (
             <div>
-                <div className="topnav">
-                    <div className="topnav-left">
-                        <p>Size Table Generator</p>
-                        <p>尺寸表產生器</p>
-                    </div>
-                    <div className="topnav-right">
-                        <a href="https://github.com/ken20001207/generate-sizetable">
-                            <img src={GithubIcon} style={{ width: 32 }} alt="Github" />
-                        </a>
-                    </div>
-                </div>
-
                 <div style={{ marginTop: 48 }}>
+                    <Topnav />
                     <div style={{ marginRight: 36, display: "inline-block" }}>
                         <button className="setting" onClick={() => this.setState({ fontSize: this.state.fontSize - 1 })}>
                             縮小字體
